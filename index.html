@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorry Your Highness 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050007}
+body{height:100dvh;display:flex;flex-direction:column;align-items:center}
+.heading{flex:0 0 auto;width:100%;text-align:center;padding:1.5vh 8px 0;font-family:'Great Vibes',cursive;font-weight:400;font-size:clamp(42px,7.2vw,100px);line-height:1.12;color:#ffd8ea;text-shadow:0 0 5px #ff69b4,0 0 18px #ff1493}
+.stage{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+@media(max-width:600px){.heading{font-size:clamp(38px,10vw,64px);padding-top:1vh}}
+@media(max-height:500px){.heading{font-size:clamp(30px,7vh,50px);padding-top:2px}}
+</style>
+</head>
+<body>
+<div class="heading">Sorry Your Highness <span style="font-family:serif;font-size:.48em;vertical-align:middle">💗</span></div>
+<div class="stage"><canvas id="heart" aria-label="A large heart filled with evenly spaced scrolling SIMRAN names"></canvas></div>
+<script>
+const canvas=document.getElementById('heart'),ctx=canvas.getContext('2d');
+const heart=new Path2D('M500 755 C440 700 55 455 55 255 C55 75 275 20 405 145 C455 193 485 238 500 263 C515 238 545 193 595 145 C725 20 945 75 945 255 C945 455 560 700 500 755 Z');
+let scale=1,ox=0,oy=0,offset=0,dpr=1;
+function resize(){const r=canvas.getBoundingClientRect();dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);scale=Math.min(r.width/1000,r.height/800);ox=(r.width-1000*scale)/2;oy=(r.height-800*scale)/2;}
+function draw(){const w=canvas.width/dpr,h=canvas.height/dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);ctx.save();ctx.clip(heart);
+const fontSize=12;ctx.font=`italic ${fontSize}px Georgia, 'Times New Roman', serif`;ctx.textAlign='left';ctx.textBaseline='middle';ctx.fillStyle='#ff8ac8';ctx.shadowColor='#ff1493';ctx.shadowBlur=2;
+const word='SIMRAN',wordW=ctx.measureText(word).width,gap=2,step=wordW+gap,rowH=13;offset=(offset-0.62+rowH)%rowH;
+// Draw a dense, continuous grid; the heart clip cleanly trims words at the edges.
+for(let y=-rowH+offset;y<800+rowH;y+=rowH){for(let x=-step;x<1000+step;x+=step){ctx.fillText(word,x,y);}}
+ctx.restore();ctx.restore();requestAnimationFrame(draw)}
+window.addEventListener('resize',resize);resize();draw();
+</script>
+</body>
+</html>
 
